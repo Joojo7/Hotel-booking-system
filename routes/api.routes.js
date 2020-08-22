@@ -124,12 +124,7 @@ router.get(
     // authMiddleware.authorize.bind({ accessCodes: ['4002', '4009'] }),
     UsersController.index
 );
-router.get(
-    '/users/getCollectors',
-    clientKey.clientKey,
-    authMiddleware.authorize,
-    UsersController.getAllCollectors
-);
+
 
 router.get(
     '/user/profile',
@@ -162,35 +157,7 @@ router.get(
     clientKey.clientKey,
     UsersController.show
 );
-router.get(
-    '/users/birds/:id',
-    clientKey.clientKey,
-    authMiddleware.authorize,
-    UsersController.getUserBirdCollection
-);
-router.patch(
-    '/users/:id/removeAccessCode',
-    clientKey.clientKey,
-    authMiddleware.authorize,
-    UsersController.removeAccessCodeFromUser
-);
-router.get(
-    '/users/:id/getAccessCodes',
-    clientKey.clientKey,
-    authMiddleware.authorize,
-    UsersController.getUserAccessCodes
-);
-router.post(
-    '/users/verifyEmail',
-    clientKey.clientKey,
-    authMiddleware.authorize,
-    UsersController.sendActiviationEmail
-);
-router.post(
-    '/users/activateEmail',
-    clientKey.clientKey,
-    UsersController.activateUserEmail
-);
+
 // #endregion
 
 
