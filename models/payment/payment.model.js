@@ -24,7 +24,7 @@ const Schema = new mongoose.Schema(
         },
         payment_date: {
             type: Date,
-            default: Date.now()
+            default: ""
         },
         credit_card: {
             type: String,

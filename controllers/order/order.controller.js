@@ -1,17 +1,110 @@
 const OrderHelper = require('../../helpers/order.helper');
+const HotelHelper = require('../../helpers/hotel.helper');
+const RoomHelper = require('../../helpers/room.helper');
+const PaymentHelper = require('../../helpers/payment.helper');
 const omit = require('lodash/omit');
-const { EVENT_OR_NEWS_NOT_FOUND} = require('../../errorDefinition/errors.map');
+const {
+  HOTEL_NOT_FOUND,
+  ROOM_NOT_FOUND,
+  ROOM_CAPACITY_EXCEEDED,
+  FILL_ALL_DATES,
+  CHECK_IN_BEFORE_TODAY,
+  CHECK_IN_BEFORE_CHECK_OUT,
+  PAYMENT_ERROR
+} = require("../../errorDefinition/errors.map");
 class order {
-    static async create(req, res) {
+    static async createOrder(req, res) {
         try {
             const body = req.body
             body.uid =  currentUser.uid
 
+            const hotel = await HotelHelper.getHotel(body.hotel_id ? body.hotel_id  : "")
+            if (!hotel) {
+                throw HOTEL_NOT_FOUND
+            }
 
+            const room = await RoomHelper.getRoom(body.room_id ? body.room_id  : "")
+            if (!room) {
+                throw ROOM_NOT_FOUND
+            }
+
+            
+            if (body.number_of_guests > room.room_capacity) {
+                throw ROOM_CAPACITY_EXCEEDED
+            }
+
+            if (!body.check_in_date || !body.check_out_date ) {
+                throw FILL_ALL_DATES
+            }
+
+            const checkIn = new Date(body.check_in_date)
+            const checkOut = new Date(body.check_out_date)
+            const today = new Date()
+           
+            if (checkIn < today) {
+                throw CHECK_IN_BEFORE_TODAY
+            }
+
+            if (checkIn > checkOut || checkIn === checkOut ) {
+                throw CHECK_IN_BEFORE_CHECK_OUT
+            }
+
+            const paymentObj = {
+                status: "pending",
+                method: "CREDIT_CARD",
+                description: `Hotel: ${hotel.hotel_name}, Room: ${room.room_name}, Number of Guests: ${body.number_of_guests}, price: ${room.price}`,
+                total_amount: room.price,
+                credit_card: body.credit_card
+            }
+
+
+            const payment = await PaymentHelper.create(paymentObj);
+
+            if (!payment) {
+                throw PAYMENT_ERROR
+            }
+
+            body.payment_id = payment.payment_id
             const order = await OrderHelper.create(body);
 
+            const bookingObject = {
+                hotel_name : hotel.hotel_name,
+                room_name : room.room_name,
+                number_of_guests: body.number_of_guests,
+                total_amount: room.price,
+                name: order.name,
+                email: order.email,
+                phone: order.phone
+            }
 
-            res.sendSuccess(order);
+
+            res.sendSuccess(bookingObject);
+        } catch (error) {
+            console.log(error);
+            res.sendError(error, req.header('languageId'),null,error); 
+        }
+    }
+
+    static async createHotel(req, res) {
+        try {
+
+            const hotel = await HotelHelper.create(req.body);
+
+
+            res.sendSuccess(hotel);
+        } catch (error) {
+            console.log(error);
+            res.sendError(error, req.header('languageId'),null,error); 
+        }
+    }
+
+    static async createRoom(req, res) {
+        try {
+
+            const hotel = await RoomHelper.create(req.body);
+
+
+            res.sendSuccess(hotel);
         } catch (error) {
             console.log(error);
             res.sendError(error, req.header('languageId'),null,error); 
@@ -19,7 +112,7 @@ class order {
     }
 
 
-    static async index(req, res) {
+    static async getOrders(req, res) {
         try {
             const options = {
                 sort: req.query.sort,
@@ -37,6 +130,27 @@ class order {
             };
 
             const Orders = await OrderHelper.getOrders(options);
+
+            res.sendSuccess(Orders);
+        } catch (error) {
+            console.log(error);
+            res.sendError(error, req.header('languageId'),null,error);
+        }
+    }
+
+    static async getHotels(req, res) {
+        try {
+            const options = {
+                sort: req.query.sort,
+                order: req.query.order,
+                page: req.query.page,
+                recordPerPage: req.query.pageSize,
+                filter: req.query.filter,
+                fromDate: req.query.fromDate,
+                toDate: req.query.toDate
+            };
+
+            const Orders = await HotelHelper.getHotels(options);
 
             res.sendSuccess(Orders);
         } catch (error) {

@@ -46,7 +46,7 @@ class Hotel {
 
             let query = hotelsModel.aggregate().match(matchQuery)
             .lookup({
-                from: 'room',
+                from: 'rooms',
                 localField: 'hotel_id',
                 foreignField: 'hotel_id',
                 as: 'rooms'
@@ -72,7 +72,7 @@ class Hotel {
                             }
                         },
                         {
-                            "location.address": {
+                            address: {
                                 $regex: filter,
                                 $options: 'xi'
                             }
@@ -86,7 +86,7 @@ class Hotel {
             query.project({
                 hotel_id: 1,
                 hotel_name: 1,
-                location: 1,
+                address: 1,
                 stars: 1,
                 rooms: 1,
                 number_of_rooms: 1,

@@ -163,45 +163,68 @@ router.get(
 
 
 
-// Notes
+// Orders
 // #region
-const notesController = require('../controllers/notes/notes.controller');
+const ordersController = require('../controllers/order/order.controller');
 
 router.post(
-    '/notes',
+    '/orders',
     clientKey.clientKey,
     authMiddleware.authorize,
     requestBodyValidator.check,
-    notesController.create
+    ordersController.createOrder
+);
+
+router.post(
+    '/hotels',
+    clientKey.clientKey,
+    authMiddleware.authorize,
+    requestBodyValidator.check,
+    ordersController.createHotel
+);
+
+router.post(
+    '/rooms',
+    clientKey.clientKey,
+    authMiddleware.authorize,
+    requestBodyValidator.check,
+    ordersController.createRoom
 );
 
 router.get(
-    '/notes',
+    '/orders',
     clientKey.clientKey,
     authMiddleware.authorize,
-    notesController.index
+    ordersController.getOrders
+);
+
+router.get(
+    '/hotels',
+    clientKey.clientKey,
+    authMiddleware.authorize,
+    ordersController.getHotels
 );
 
 router.patch(
-    '/notes/:id',
+    '/orders/:id',
     clientKey.clientKey,
     authMiddleware.authorize,
     requestBodyValidator.check,
-    notesController.update
+    ordersController.update
 );
 
 router.get(
-    '/notes/:id',
+    '/orders/:id',
     clientKey.clientKey,
     authMiddleware.authorize,
-    notesController.show
+    ordersController.show
 );
 
 router.delete(
-    '/notes/:id',
+    '/orders/:id',
     clientKey.clientKey,
     authMiddleware.authorize,
-    notesController.delete
+    ordersController.delete
 );
 
 // #endregion

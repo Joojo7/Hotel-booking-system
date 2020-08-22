@@ -67,12 +67,6 @@ class Room {
                                 $regex: `${filter}`,
                                 $options: 'xi'
                             }
-                        },
-                        {
-                            "location.address": {
-                                $regex: filter,
-                                $options: 'xi'
-                            }
                         }
                     ]
                 });
@@ -85,6 +79,7 @@ class Room {
                 room_name: 1,
                 room_capacity: 1,
                 hotel_id: 1,
+                price: 1
         })
 
             // sort

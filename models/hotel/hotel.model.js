@@ -10,16 +10,14 @@ const Schema = new mongoose.Schema(
             required: true
         },
         number_of_rooms: {
-            type: String,
+            type: Number,
             required: true
         },
         stars: Number,
-        location: {
-            address: String,
-            state: String,
-            country: String,
-            postcode: String
-        }
+        address:  {
+            type: String,
+            required: true
+        },
     },
     { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 );
