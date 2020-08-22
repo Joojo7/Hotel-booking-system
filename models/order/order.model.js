@@ -24,6 +24,14 @@ const Schema = new mongoose.Schema(
         payment_id: {
             type: String,
             required: true
+        },
+        check_in_date: {
+            type: Date,
+            required: true
+        },
+        check_out_date: {
+            type: Date,
+            required: true
         }
     },
     { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }

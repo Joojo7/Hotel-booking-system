@@ -10,7 +10,23 @@ const Schema = new mongoose.Schema(
             enum: ['pending', 'completed'],
             default: "pending"
         },
-        status: {
+        method: {
+            type: String,
+            default: "CREDIT_CARD"
+        },
+        description: {
+            type: String,
+            required: true
+        },
+        total_amount: {
+            type: Number,
+            required: true
+        },
+        payment_date: {
+            type: Date,
+            default: Date.now()
+        },
+        credit_card: {
             type: String,
             default: ""
         }

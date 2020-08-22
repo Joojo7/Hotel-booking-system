@@ -16,34 +16,6 @@ const isEmpty = require('lodash/isEmpty');
 const compact = require('lodash/compact');
 const uniq = require('lodash/uniq');
 class User {
-    static async findByCountry(country) {
-        return await userProfileModule.UserProfile.find({
-            'location.coutry': country
-        });
-    }
-
-    static async findByPostcode(postcode) {
-        return await userProfileModule.UserProfile.find({
-            'location.postcode': postcode
-        });
-    }
-
-    static async findValidRecipients(recipients = []) {
-
-        let query = {
-            is_email_verified: true,
-            is_email_subscribed: true
-        };
-        if (recipients.length) {
-            query.email = { $in: recipients };  
-        }
-    
-        const emailArrayObj = await userProfileModule.UserProfile.find(
-            query,
-            ["email", "username"]
-        );
-        return emailArrayObj;
-      }
     
 
     static async findByEmail(email, password) {
@@ -191,9 +163,6 @@ class User {
             user.gender ? (objToUpdate.gender = user.gender) : null;
             user.avatar ? (objToUpdate.avatar = user.avatar) : null;
             user.user_type ? (objToUpdate.user_type = user.user_type) : null;
-            // user.is_client_pic
-            //     ? (objToUpdate.is_client_pic = user.is_client_pic)
-            //     : null;
             user.password? (objToUpdate.password = user.password): null
             user.reset_password_token
                 ? (objToUpdate.reset_password_token = user.reset_password_token)
@@ -234,12 +203,6 @@ class User {
                 }
                 
                 objToUpdate.password = await this.hashPassword(user.new_password)
-            }
-
-            if (user.extra_access_codes) {
-                objToUpdate.$addToSet = {
-                    extra_access_codes: user.extra_access_codes
-                };
             }
 
             if (user.location) {
@@ -393,25 +356,6 @@ class User {
         }
     }
 
-    // static async authorizeById(_id,password) {
-    //     let result;
-    //     try {
-    //         result = await userProfileModule.UserProfile.findOne({
-    //             _id: _id
-    //         },'password');
-
-    //         if (result) {
-    //             if (bcrypt.compareSync(password, result.password)) {
-    //                 return result;
-    //             }
-    //             return null;
-    //         }
-    //         return null;
-    //     } catch (e) {
-    //         throw e;
-    //     }
-    // }
-
     static async findByUid(uid) {
         try {
             const result = await userProfileModule.UserProfile.aggregate()
@@ -457,157 +401,8 @@ class User {
         }
     }
 
-    static async removeAccessCode(uid, access_code) {
-        try {
-            const result = await userProfileModule.UserProfile.updateOne(
-                { uid },
-                {
-                    $pull: {
-                        extra_access_codes: access_code
-                    }
-                }
-            );
 
-            return result;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-
-    static async findUIDById(_id) {
-        let result;
-        try {
-            result = await userProfileModule.UserProfile.findOne({
-                _id: _id
-            });
-
-            if (result) {
-                return result.uid;
-            }
-            return null;
-        } catch (e) {
-            throw e;
-        }
-    }
-
-    static async findMembersById(members) {
-        try {
-            let validMembers = await userProfileModule.UserProfile.find({
-                uid: {
-                    $in: members
-                }
-            });
-
-            return validMembers;
-        } catch (e) {
-            throw e;
-        }
-    }
-
-    static async getByEmail(email) {
-        try {
-            const user = await userProfileModule.UserProfile.findOne({
-                email
-            });
-            return user;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    // static async getUserListOfBirds(uid) { 
-    //     try {
-    //         let query = await userProfileModule.UserProfile.aggregate()
-    //         .match({ uid })
-    //         .unwind({
-    //             path: '$birds',
-    //             preserveNullAndEmptyArrays: true
-    //           })
-    //         .lookup({
-    //             from: 'birds',
-    //             localField: 'birds.bird_id',
-    //             foreignField: 'bird_id',
-    //             as: 'birdsArray'
-    //         })
-
-    //         .unwind({
-    //             path: '$birdsArray',
-    //             preserveNullAndEmptyArrays: true
-    //           })
-    //           .project({
-    //             _id: 0,
-    //             bird_id: '$birdsArray.bird_id',
-    //             bird_name: '$birdsArray.bird_name',
-    //             bird_image: '$birdsArray.bird_image',
-    //             bird_animated_image: '$birdsArray.bird_animated_image',
-    //             description: '$birdsArray.description',
-    //             caption: '$birdsArray.caption',
-    //             bin_id: '$birds.bin_id',
-    //             level_obtained: '$birds.level_obtained',
-    //             date_obtained: '$birds.date_obtained'
-               
-    //         })
-    //         .group({
-    //             _id: '$bird_id',
-    //             count: {
-    //                 $sum: 1
-    //             }
-    //         })
-
-    //         if (query[0]) {
-    //             if (!query[0]._id ) {
-    //                 return [];
-    //             }
-    //         }
-
-    //         for (let i = 0; i < query.length; i++) {
-    //             let bird = await BirdHelper.getBird(query[i]._id)
-    //             query[i].bird_id = bird.bird_id
-    //             query[i].bird_name = bird.bird_name
-    //             query[i].bird_animated_image = bird.bird_animated_image
-    //             query[i].bird_image = bird.bird_image
-    //             query[i].caption = bird.caption
-    //             query[i].age = bird.age
-    //             query[i].description = bird.description
-    //             query[i].updated_at = bird.updated_at
-    //         }
-
-            
-    //         return query;
-    //     } catch (error) {
-    //         throw error;
-    //     }
-    // }
-
-    static async getByResetPasswordToken(reset_password_token) {
-        try {
-            const user = await userProfileModule.UserProfile.findOne({
-                reset_password_token,
-                reset_password_token_expire_at: {
-                    $gt: new Date()
-                }
-            });
-            return user;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    static async getByActivationEmailToken(email_validation_token) {
-        try {
-            const user = await userProfileModule.UserProfile.findOne({
-                email_validation_token
-                // reset_password_token_expire_at: {
-                //     $gt: new Date()
-                // }
-            });
-            return user;
-        } catch (error) {
-            throw error;
-        }
-    }
-
+    
     static async getUsers(options) {
         try {
             return this.getAllUsers(options);
@@ -635,13 +430,6 @@ class User {
             filter = filter || '';
            
             const query = userProfileModule.UserProfile.aggregate()
-                // .lookup({
-                //     from: 'barcodes',
-                //     localField: 'uid',
-                //     foreignField: 'uid',
-                //     as: 'barcodes'
-                // });
-
              // filter
             if (fromDate && toDate) {
                 query.match({
@@ -672,12 +460,6 @@ class User {
                                 $options: 'xi'
                             }
                         },
-                        // {
-                        //     'barocodes.barcode': {
-                        //         $regex: filter,
-                        //         $options: 'xi'
-                        //     }
-                        // },
                         {
                             uid: {
                                 $regex: filter,

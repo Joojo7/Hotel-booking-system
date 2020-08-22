@@ -1,15 +1,15 @@
 
-const hotelsModel = require('../models/hotel/hotel.model');
+const paymentsModel = require('../models/payment/payment.model');
 
 
 
-class Hotel {
+class Payment {
 
 
- //this is used to create a hotel
- static async create(hotel) {
+ //this is used to create a payment
+ static async create(payment) {
     try {
-        const result = await hotelsModel.create(hotel);
+        const result = await paymentsModel.create(payment);
 
         return result;
     } catch (error) {
@@ -17,18 +17,19 @@ class Hotel {
     }
 }
 
- //   TODO: UPDATE HOTEL HELPER
+ //   TODO: UPDATE PAYMENT HELPER
 
 
     
-    static async getHotels({
+    static async getPayments({
         sort,
         order,
         page,
         recordPerPage,
         filter,
         fromDate,
-        toDate
+        toDate,
+        status
     }) {
         try {
             sort = sort || 'updated_at';
@@ -42,15 +43,8 @@ class Hotel {
               deleted: false
             };
 
-
-
-            let query = hotelsModel.aggregate().match(matchQuery)
-            .lookup({
-                from: 'room',
-                localField: 'hotel_id',
-                foreignField: 'hotel_id',
-                as: 'rooms'
-            })
+            let query = paymentsModel.aggregate().match(matchQuery);
+            
             
             // filter
             if (fromDate && toDate) {
@@ -62,17 +56,23 @@ class Hotel {
                 });
             }
 
+            if (status) {
+                query.match({
+                    status: status
+                });
+            }
+
             if (filter) {
                 query.match({
                     $or: [
                         {
-                            hotel_name: {
+                            payment_name: {
                                 $regex: `${filter}`,
                                 $options: 'xi'
                             }
                         },
                         {
-                            "location.address": {
+                            status: {
                                 $regex: filter,
                                 $options: 'xi'
                             }
@@ -84,18 +84,18 @@ class Hotel {
            
 
             query.project({
-                hotel_id: 1,
-                hotel_name: 1,
-                location: 1,
-                stars: 1,
-                rooms: 1,
-                number_of_rooms: 1,
+                payment_id: 1,
+                status: 1,
+                method: 1,
+                credit_card: 1,
+                created_at: 1,
+                updated_at: 1
         })
 
             // sort
             query
                 .sort({
-                    [sort]: order, start_date: order
+                    [sort]: order
                 })
 
                 .group({
@@ -110,7 +110,7 @@ class Hotel {
 
                 .project({
                     total_count: true,
-                    hotels: {
+                    payments: {
                         $slice: ['$data', startIndex, recordPerPage]
                     }
                 });
@@ -128,10 +128,10 @@ class Hotel {
         }
     }
 
-    static async getHotel(id) {
+    static async getPayment(id) {
 
-        let result = await hotelsModel.findOne({
-            hotel_id: id
+        let result = await paymentsModel.findOne({
+            payment_id: id
         })
         if (!result) {
             return null;
@@ -142,10 +142,10 @@ class Hotel {
 
 
     static async delete(_id) {
-        const hotel = await hotelsModel.delete({_id});
+        const payment = await paymentsModel.delete({_id});
 
-        return hotel;
+        return payment;
     }
 }
 
-module.exports = Hotel;
+module.exports = Payment;

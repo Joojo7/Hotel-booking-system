@@ -1,15 +1,15 @@
 
-const hotelsModel = require('../models/hotel/hotel.model');
+const roomsModel = require('../models/room/room.model');
 
 
 
-class Hotel {
+class Room {
 
 
- //this is used to create a hotel
- static async create(hotel) {
+ //this is used to create a room
+ static async create(room) {
     try {
-        const result = await hotelsModel.create(hotel);
+        const result = await roomsModel.create(room);
 
         return result;
     } catch (error) {
@@ -17,18 +17,18 @@ class Hotel {
     }
 }
 
- //   TODO: UPDATE HOTEL HELPER
+ //   TODO: UPDATE ROOM HELPER
 
 
     
-    static async getHotels({
+    static async getRooms({
         sort,
         order,
         page,
         recordPerPage,
         filter,
         fromDate,
-        toDate
+        toDate,
     }) {
         try {
             sort = sort || 'updated_at';
@@ -44,13 +44,10 @@ class Hotel {
 
 
 
-            let query = hotelsModel.aggregate().match(matchQuery)
-            .lookup({
-                from: 'room',
-                localField: 'hotel_id',
-                foreignField: 'hotel_id',
-                as: 'rooms'
-            })
+            let query = roomsModel.aggregate().match(matchQuery);
+
+            
+            
             
             // filter
             if (fromDate && toDate) {
@@ -66,7 +63,7 @@ class Hotel {
                 query.match({
                     $or: [
                         {
-                            hotel_name: {
+                            room_name: {
                                 $regex: `${filter}`,
                                 $options: 'xi'
                             }
@@ -84,18 +81,16 @@ class Hotel {
            
 
             query.project({
+                room_id: 1,
+                room_name: 1,
+                room_capacity: 1,
                 hotel_id: 1,
-                hotel_name: 1,
-                location: 1,
-                stars: 1,
-                rooms: 1,
-                number_of_rooms: 1,
         })
 
             // sort
             query
                 .sort({
-                    [sort]: order, start_date: order
+                    [sort]: order
                 })
 
                 .group({
@@ -110,7 +105,7 @@ class Hotel {
 
                 .project({
                     total_count: true,
-                    hotels: {
+                    rooms: {
                         $slice: ['$data', startIndex, recordPerPage]
                     }
                 });
@@ -128,10 +123,10 @@ class Hotel {
         }
     }
 
-    static async getHotel(id) {
+    static async getRoom(id) {
 
-        let result = await hotelsModel.findOne({
-            hotel_id: id
+        let result = await roomsModel.findOne({
+            room_id: id
         })
         if (!result) {
             return null;
@@ -142,10 +137,10 @@ class Hotel {
 
 
     static async delete(_id) {
-        const hotel = await hotelsModel.delete({_id});
+        const room = await roomsModel.delete({_id});
 
-        return hotel;
+        return room;
     }
 }
 
-module.exports = Hotel;
+module.exports = Room;

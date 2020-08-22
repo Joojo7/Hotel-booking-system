@@ -9,7 +9,7 @@ const Schema = new mongoose.Schema(
             type: String,
             required: true
         },
-        number_of_rooms: {
+        room_capacity: {
             type: Number,
             default: 1
         },
