@@ -1,41 +1,20 @@
 
-const notesModel = require('../models/hotel/hotel.model');
+const hotelsModel = require('../models/hotel/hotel.model');
 const ObjectId = require('mongoose').Types.ObjectId;
 const { INVALID_COORDS } = require('../errorDefinition/errors.map');
 const isCoords = require('is-valid-coordinates');
 
 
 
-class notes {
-    //this is used to create a note
-    static async create(note) {
-        let specialId = new ObjectId();
-        try {
-            const result = await notesModel.create(note);
+class hotel {
 
-            return result;
-        } catch (error) {
-            throw error;
-        }
-    }
+ //   TODO: CREATE HOTEL HELPER
 
-    //used to update a note
-    static async update({ _id, note }) {
-        try {
-            const result = await notesModel.findOneAndUpdate( 
-                { _id },
-                { $set: note }, {new: true}
-            );
+ //   TODO: UPDATE HOTEL HELPER
 
-        
 
-            return result;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    static async getnotes({
+    
+    static async gethotels({
         sort,
         order,
         page,
@@ -43,21 +22,14 @@ class notes {
         filter,
         fromDate,
         toDate,
-        isApproved,
         type,
-        last_retrieved,
-        platform
     }) {
         try {
             sort = sort || 'updated_at';
             order = order || 'desc';
             filter = filter || '';
-            type = type;
-            isApproved = isApproved;
-            platform = platform;
-            last_retrieved = last_retrieved || 0;
             page = page || 1;
-            recordPerPage = parseInt(recordPerPage) || 10000;
+            recordPerPage = parseInt(recordPerPage) || 10;
             const startIndex = (page - 1) * recordPerPage;
 
             let matchQuery = {
@@ -66,7 +38,7 @@ class notes {
 
 
 
-            let query = notesModel.aggregate().match(matchQuery);
+            let query = hotelsModel.aggregate().match(matchQuery);
 
             
             
@@ -85,19 +57,13 @@ class notes {
                 query.match({
                     $or: [
                         {
-                            title: {
+                            hotel_name: {
                                 $regex: `${filter}`,
                                 $options: 'xi'
                             }
                         },
                         {
-                            description: {
-                                $regex: filter,
-                                $options: 'xi'
-                            }
-                        },
-                        {
-                            text: {
+                            "location.address": {
                                 $regex: filter,
                                 $options: 'xi'
                             }
@@ -109,11 +75,11 @@ class notes {
            
 
             query.project({
-                title: 1,
-                text: 1,
-                note_id: 1,
-                created_at: 1,
-                updated_at: 1
+                hotel_id: 1,
+                hotel_name: 1,
+                location: 1,
+                stars: 1,
+                number_of_rooms: 1,
         })
 
             // sort
@@ -134,7 +100,7 @@ class notes {
 
                 .project({
                     total_count: true,
-                    notes: {
+                    hotels: {
                         $slice: ['$data', startIndex, recordPerPage]
                     }
                 });
@@ -152,10 +118,10 @@ class notes {
         }
     }
 
-    static async getnote(id) {
+    static async gethotel(id) {
 
-        let result = await notesModel.findOne({
-            note_id: id
+        let result = await hotelsModel.findOne({
+            hotel_id: id
         })
         if (!result) {
             return null;
@@ -166,10 +132,10 @@ class notes {
 
 
     static async delete(_id) {
-        const note = await notesModel.delete({_id});
+        const hotel = await hotelsModel.delete({_id});
 
-        return note;
+        return hotel;
     }
 }
 
-module.exports = notes;
+module.exports = hotel;
