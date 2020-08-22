@@ -21,6 +21,7 @@
     "axios": "^0.18.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
+    "card-validator": "^8.0.0",
     "crypto": "^1.0.1",
     "express": "^4.16.3",
     "express-validator": "^5.3.0",

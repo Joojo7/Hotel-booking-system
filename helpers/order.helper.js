@@ -74,7 +74,8 @@ static async validateDates(checkInDate, checkOutDate) {
         fromDateCheckIn,
         toDateCheckIn,
         fromDateCheckOut,
-        toDateCheckOut
+        toDateCheckOut,
+        matchQuery
     }) {
         try {
             sort = sort || 'updated_at';
@@ -85,9 +86,7 @@ static async validateDates(checkInDate, checkOutDate) {
             recordPerPage = parseInt(recordPerPage) || 10;
             const startIndex = (page - 1) * recordPerPage;
 
-            let matchQuery = {
-              deleted: false
-            };
+           matchQuery = matchQuery || {};
 
 
 
@@ -193,8 +192,9 @@ static async validateDates(checkInDate, checkOutDate) {
                 order_id: 1,
                 hotel_name: "$hotel.hotel_name",
                 hotel_id: "$hotel.hotel_id",
-                room_name: "room.room_name",
-                room_id: "room.room_id",
+                room_name: "$room.room_name",
+                room_id: "$room.room_id",
+                room_price: "$room.price",
                 number_of_guests: 1,
                 check_in_date: 1,
                 check_out_date: 1,
@@ -251,7 +251,8 @@ static async validateDates(checkInDate, checkOutDate) {
 
         let result = await ordersModel.findOne({
             order_id: id
-        })
+        }).populate('payment', '-_id status description total_amount payment_date')
+
         if (!result) {
             return null;
         }

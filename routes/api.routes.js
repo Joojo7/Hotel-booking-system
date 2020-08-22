@@ -170,7 +170,6 @@ const ordersController = require('../controllers/order/order.controller');
 router.post(
     '/orders',
     clientKey.clientKey,
-    // authMiddleware.authorize,
     requestBodyValidator.check,
     ordersController.createOrder
 );
@@ -178,7 +177,6 @@ router.post(
 router.post(
     '/hotels',
     clientKey.clientKey,
-    authMiddleware.authorize,
     requestBodyValidator.check,
     ordersController.createHotel
 );
@@ -186,7 +184,6 @@ router.post(
 router.post(
     '/rooms',
     clientKey.clientKey,
-    authMiddleware.authorize,
     requestBodyValidator.check,
     ordersController.createRoom
 );
@@ -194,37 +191,33 @@ router.post(
 router.get(
     '/orders',
     clientKey.clientKey,
-    authMiddleware.authorize,
     ordersController.getOrders
 );
 
 router.get(
     '/hotels',
     clientKey.clientKey,
-    authMiddleware.authorize,
     ordersController.getHotels
 );
 
 router.patch(
     '/orders/:id',
     clientKey.clientKey,
-    authMiddleware.authorize,
     requestBodyValidator.check,
-    ordersController.update
+    ordersController.updateOrder
+);
+
+router.patch(
+    '/make-payment/:credit_card',
+    clientKey.clientKey,
+    requestBodyValidator.check,
+    ordersController.makePayment
 );
 
 router.get(
-    '/orders/:id',
+    '/payment-status/:id',
     clientKey.clientKey,
-    authMiddleware.authorize,
-    ordersController.show
-);
-
-router.delete(
-    '/orders/:id',
-    clientKey.clientKey,
-    authMiddleware.authorize,
-    ordersController.delete
+    ordersController.getOrder
 );
 
 // #endregion

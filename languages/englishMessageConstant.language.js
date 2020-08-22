@@ -10,4 +10,6 @@ module.exports = {
     '5006': "Your check-in date cannot be before today's date",
     '5007': "Check in date must be before the check out date",
     '5005': "An error occured with payment details",
+    '5008': "This order cannot be found",
+    '5002': "This credit card is invalid"
 };

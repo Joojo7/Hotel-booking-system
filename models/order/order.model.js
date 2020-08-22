@@ -17,10 +17,6 @@ const Schema = new mongoose.Schema(
             type: Number,
             required: true
         },
-        uid: {
-            type: String,
-            default: ""
-        },
         name: {
             type: String,
             required: true
@@ -46,13 +42,24 @@ const Schema = new mongoose.Schema(
             required: true
         }
     },
-    { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
+    {
+        timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+        toJSON: { virtuals: true }
+    }
 );
 
 Schema.pre('save', function(next) {
     this.order_id = this._id; 
     next();
 });
+
+Schema.virtual('payment', {
+    ref: 'payment', // The model to use
+    localField: 'payment_id', // Find people where `localField`
+    foreignField: 'payment_id', // is equal to `foreignField`
+    justOne: true
+});
+
 
 Schema.plugin(mongooseSoftDelete, { 
     overrideMethods: 'all'

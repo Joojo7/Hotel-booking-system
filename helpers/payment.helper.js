@@ -17,15 +17,14 @@ class Payment {
     }
 }
 
-static async update({ _id, note }) {
+static async update({ payment_id, payment }) {
     try {
-        const result = await notesModel.findOneAndUpdate( 
-            { _id },
-            { $set: note }, {new: true}
+        const result = await paymentsModel.findOneAndUpdate( 
+            { payment_id },
+            { $set: payment }, {new: true}
         );
 
     
-
         return result;
     } catch (error) {
         throw error;
