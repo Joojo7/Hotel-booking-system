@@ -70,31 +70,6 @@ class order {
         }
     }
 
-    static async createHotel(req, res) {
-        try {
-
-            const hotel = await HotelHelper.create(req.body);
-
-
-            res.sendSuccess(hotel);
-        } catch (error) {
-            console.log(error);
-            res.sendError(error, req.header('languageId'),null,error); 
-        }
-    }
-
-    static async createRoom(req, res) {
-        try {
-
-            const hotel = await RoomHelper.create(req.body);
-
-
-            res.sendSuccess(hotel);
-        } catch (error) {
-            console.log(error);
-            res.sendError(error, req.header('languageId'),null,error); 
-        }
-    }
 
 
     static async getOrders(req, res) {

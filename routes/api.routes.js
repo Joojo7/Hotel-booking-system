@@ -174,20 +174,6 @@ router.post(
     ordersController.createOrder
 );
 
-router.post(
-    '/hotels',
-    clientKey.clientKey,
-    requestBodyValidator.check,
-    ordersController.createHotel
-);
-
-router.post(
-    '/rooms',
-    clientKey.clientKey,
-    requestBodyValidator.check,
-    ordersController.createRoom
-);
-
 router.get(
     '/orders',
     clientKey.clientKey,
