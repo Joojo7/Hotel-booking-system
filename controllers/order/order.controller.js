@@ -7,16 +7,12 @@ const {
   HOTEL_NOT_FOUND,
   ROOM_NOT_FOUND,
   ROOM_CAPACITY_EXCEEDED,
-  FILL_ALL_DATES,
-  CHECK_IN_BEFORE_TODAY,
-  CHECK_IN_BEFORE_CHECK_OUT,
   PAYMENT_ERROR
 } = require("../../errorDefinition/errors.map");
 class order {
     static async createOrder(req, res) {
         try {
             const body = req.body
-            body.uid =  currentUser.uid
 
             const hotel = await HotelHelper.getHotel(body.hotel_id ? body.hotel_id  : "")
             if (!hotel) {
@@ -33,21 +29,7 @@ class order {
                 throw ROOM_CAPACITY_EXCEEDED
             }
 
-            if (!body.check_in_date || !body.check_out_date ) {
-                throw FILL_ALL_DATES
-            }
-
-            const checkIn = new Date(body.check_in_date)
-            const checkOut = new Date(body.check_out_date)
-            const today = new Date()
-           
-            if (checkIn < today) {
-                throw CHECK_IN_BEFORE_TODAY
-            }
-
-            if (checkIn > checkOut || checkIn === checkOut ) {
-                throw CHECK_IN_BEFORE_CHECK_OUT
-            }
+            await OrderHelper.validateDates(body.check_in_date , body.check_out_date)
 
             const paymentObj = {
                 status: "pending",

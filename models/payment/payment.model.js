@@ -37,7 +37,6 @@ const Schema = new mongoose.Schema(
 
 Schema.pre('save', function(next) {
     this.payment_id = this._id; 
-    this.created_by = currentUser.uid;
     next();
 });
 

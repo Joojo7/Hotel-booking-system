@@ -1,6 +1,10 @@
 
 const ordersModel = require('../models/order/order.model');
-
+const {
+    CHECK_IN_BEFORE_TODAY,
+    CHECK_IN_BEFORE_CHECK_OUT,
+    FILL_ALL_DATES
+  } = require("../errorDefinition/errors.map");
 
 
 class Order {
@@ -32,6 +36,30 @@ static async update({ order_id, order }) {
     }
 }
 
+static async validateDates(checkInDate, checkOutDate) {
+    try {
+
+        if (!checkInDate || !checkOutDate) {
+            throw FILL_ALL_DATES
+        }
+
+        const checkIn = new Date(checkInDate)
+        const checkOut = new Date(checkOutDate)
+        const today = new Date()
+       
+        if (checkIn < today) {
+            throw CHECK_IN_BEFORE_TODAY
+        }
+
+        if (checkIn > checkOut || checkIn === checkOut ) {
+            throw CHECK_IN_BEFORE_CHECK_OUT
+        }
+
+    } catch (error) {
+        throw error;
+    }
+}
+
 
     
     static async getOrders({
@@ -51,7 +79,8 @@ static async update({ order_id, order }) {
         try {
             sort = sort || 'updated_at';
             order = order || 'desc';
-            filter = filter || '';
+            filterHotel = filterHotel || ''
+            filterUser = filterUser || ''
             page = page || 1;
             recordPerPage = parseInt(recordPerPage) || 10;
             const startIndex = (page - 1) * recordPerPage;
@@ -64,31 +93,35 @@ static async update({ order_id, order }) {
 
             let query = ordersModel.aggregate().match(matchQuery)
             .lookup({
-                from: 'hotel',
+                from: 'hotels',
                 localField: 'hotel_id',
                 foreignField: 'hotel_id',
                 as: 'hotel'
             })
+            .unwind({
+                path: '$hotel',
+                preserveNullAndEmptyArrays: true
+            })
             .lookup({
-                from: 'room',
+                from: 'rooms',
                 localField: 'room_id',
                 foreignField: 'room_id',
                 as: 'room'
             })
+            .unwind({
+                path: '$room',
+                preserveNullAndEmptyArrays: true
+            })
             .lookup({
-                from: 'payment',
+                from: 'payments',
                 localField: 'payment_id',
                 foreignField: 'payment_id',
                 as: 'payment'
             })
-            .lookup({
-                from: 'user_information',
-                localField: 'uid',
-                foreignField: 'uid',
-                as: 'user'
+            .unwind({
+                path: '$payment',
+                preserveNullAndEmptyArrays: true
             })
-            
-            
             //filter for order creation
             if (fromDateCreated && toDateCreated) {
                 query.match({
@@ -133,26 +166,20 @@ static async update({ order_id, order }) {
                 query.match({
                     $or: [
                         {
-                            "user.username": {
-                                $regex: `${filter}`,
+                            name: {
+                                $regex: `${filterUser}`,
                                 $options: 'xi'
                             }
                         },
                         {
-                            "user.email": {
-                                $regex: filter,
+                            email: {
+                                $regex: `${filterUser}`,
                                 $options: 'xi'
                             }
                         },
                         {
-                            "user.phone": {
-                                $regex: filter,
-                                $options: 'xi'
-                            }
-                        },
-                        {
-                            "user.uid": {
-                                $regex: filter,
+                            phone: {
+                                $regex: `${filterUser}`,
                                 $options: 'xi'
                             }
                         }
@@ -164,13 +191,23 @@ static async update({ order_id, order }) {
 
             query.project({
                 order_id: 1,
-                hotel: 1,
-                room: 1,
-                payment: 1,
+                hotel_name: "$hotel.hotel_name",
+                hotel_id: "$hotel.hotel_id",
+                room_name: "room.room_name",
+                room_id: "room.room_id",
                 number_of_guests: 1,
-                user: 1,
                 check_in_date: 1,
                 check_out_date: 1,
+                name : 1,
+                email : 1,
+                phone : 1,
+                status : "$payment.status",
+                payment_date : "$payment.payment_date",
+                payment_description : "$payment.description",
+                total_amount : "$payment.total_amount",
+                payment_id : "$payment.payment_id",
+                created_at: 1,
+                updated_at: 1
         })
 
             // sort

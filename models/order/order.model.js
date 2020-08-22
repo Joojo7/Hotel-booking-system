@@ -14,7 +14,7 @@ const Schema = new mongoose.Schema(
             required: true
         },
         number_of_guests: {
-            type: String,
+            type: Number,
             required: true
         },
         uid: {
@@ -51,7 +51,6 @@ const Schema = new mongoose.Schema(
 
 Schema.pre('save', function(next) {
     this.order_id = this._id; 
-    this.created_by = currentUser.uid;
     next();
 });
 

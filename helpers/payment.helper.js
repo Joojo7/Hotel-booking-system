@@ -17,7 +17,20 @@ class Payment {
     }
 }
 
- //   TODO: UPDATE PAYMENT HELPER
+static async update({ _id, note }) {
+    try {
+        const result = await notesModel.findOneAndUpdate( 
+            { _id },
+            { $set: note }, {new: true}
+        );
+
+    
+
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
 
 
     
