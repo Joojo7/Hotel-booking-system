@@ -69,7 +69,9 @@ class order {
                 name: order.name,
                 email: order.email,
                 phone: order.phone,
-                order_id: order.order_id
+                order_id: order.order_id,
+                check_in_date : order.check_in_date,
+                check_out_date : order.check_out_date,
             }
 
 
