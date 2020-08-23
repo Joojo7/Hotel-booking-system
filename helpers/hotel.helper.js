@@ -116,10 +116,10 @@ class Hotel {
                 });
             
             let result = await query;
-            
-
+          
             if (!result[0]) {
-                return result;
+                return {_id: null, total_count: 0,  hotels: [] }
+                    
             }
 
             return result[0]

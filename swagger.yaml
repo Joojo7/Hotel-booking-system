@@ -10,6 +10,38 @@ schemes:
 - "http"
 paths:
   /api/v1.0/orders:
+    
+    post:
+      tags:
+      - "Orders"
+      summary: "Create an order"
+      operationId: "post"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "languageId"
+        in: "header"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "x-auth"
+        in: "header"
+        required: false
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "List of user object"
+        required: true
+        schema:
+          $ref: "#/definitions/Order"
+      responses:
+        "200":
+          description: "order"
+      security:
+      - Client-key: []
+
     get:
       tags:
       - "Orders"
@@ -62,35 +94,7 @@ paths:
         "200":
           description: "orders"
       security:
-      - Client-key: []
-    
-    post:
-      tags:
-      - "Orders"
-      summary: "Create an order"
-      operationId: "post"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "languageId"
-        in: "header"
-        required: true
-        type: "integer"
-        format: "int64"
-      - in: "body"
-        name: "body"
-        description: "List of user object"
-        required: true
-        schema:
-          $ref: "#/definitions/Order"
-      responses:
-        "200":
-          description: "order"
-      security:
-      - Client-key: []
-      - x-auth: []
+      - Client-key: []    
       
  
   /api/v1.0/orders/{id}:
@@ -119,12 +123,13 @@ paths:
       security:
       - Client-key: []
       - x-auth: []
+
   
  
   /api/v1.0/hotels:
     get:
       tags:
-      - "Hotels"
+      - "Hotels / rooms"
       summary: "Get all hotels and rooms"
       consumes:
       - "application/json"
@@ -174,11 +179,95 @@ paths:
         required: true  
       responses:
         "200":
-          description: "hotels"
+          description: "Handled errors"
       security:
       - Client-key: []
   
  
+  /api/v1.0/payment-status/{id}:
+    get:
+      tags:
+      - "Payment"
+      summary: "Check the payment status of an order"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "languageId"
+        in: "header"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "path"
+        type: "string"
+        name: "id"
+        description: "id of order"
+        required: true
+      responses:
+        "200":
+          description: "payments"
+      security:
+      - Client-key: []
+      - x-auth: []
+
+
+  /api/v1.0/user/signin:
+    post:
+      tags:
+      - "User"
+      summary: "User sign in"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "languageId"
+        in: "header"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        description: "user login details"
+        required: true
+        schema:
+          $ref: "#/definitions/User SIgnIn"
+      responses:
+        "200":
+          description: "user object"
+      security:
+      - Client-key: []
+      - x-auth: []
+
+
+  /api/v1.0/user/signup:
+    post:
+      tags:
+      - "User"
+      summary: "User sign up"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "languageId"
+        in: "header"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        description: "user login details"
+        required: true
+        schema:
+          $ref: "#/definitions/User SignUp"
+      responses:
+        "200":
+          description: "user object"
+      security:
+      - Client-key: []
+      - x-auth: []
   
 
 securityDefinitions:
@@ -216,13 +305,84 @@ definitions:
     xml:
       name: "Order"
 
-  ApiResponse:
+  User SIgnIn:
     type: "object"
     properties:
-      code:
+      email_phone:
+        type: "string"
+      password:
+        type: "string" 
+    xml:
+      name: "User" 
+      
+      
+  User SignUp:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      phone:
+        type: "string"
+      password:
+        type: "string"
+      username:
+        type: "string"      
+    xml:
+      name: "User" 
+
+  Hotel:
+    type: "object"
+    properties:
+      hotel_name:
+        type: "string"
+      number_of_rooms:
+        type: "string"
+      stars:
         type: "integer"
         format: "int32"
-      type:
+      address:
+        type: "string"      
+    xml:
+      name: "Hotel" 
+
+  Room:
+    type: "object"
+    properties:
+      room_name:
         type: "string"
-      message:
+      hotel_id:
         type: "string"
+      room_capacity:
+        type: "integer"
+        format: "int32"
+      address:
+        type: "string"
+      price:
+        type: "integer"
+        format: "int32"
+    xml:
+      name: "Room" 
+
+  Payment:
+    type: "object"
+    properties:
+      status:
+        type: "string"
+      method:
+        type: "string"
+      total_amount:
+        type: "integer"
+        format: "int32"
+      description:
+        type: "string"
+      credit_card:
+        type: "string"
+      payment_date:
+        type: "string"
+      price:
+        type: "integer"
+        format: "int32"
+    xml:
+      name: "Room" 
+
+ 

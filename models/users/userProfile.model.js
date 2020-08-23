@@ -59,8 +59,7 @@ const UserProfileSchema = new mongoose.Schema(
         country_code: {
             type: String,
             unique: false,
-            trim: true,
-            required: true
+            trim: true
         },
 
         user_type: {

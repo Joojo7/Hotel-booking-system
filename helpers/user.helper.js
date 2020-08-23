@@ -35,7 +35,6 @@ class User {
                     email: 1,
                     username: 1,
                     is_email_verified: 1,
-                    country_code: 1,
                     phone: 1,
                     avatar: 1,
                     user_type: 1,
@@ -317,9 +316,7 @@ class User {
                 email: request.email.trim().toLowerCase(),
                 phone: request.phone.trim(),
                 username: request.username.trim(),
-                country_code: request.country_code.trim(),
                 password: password,
-                user_type: request.user_type,
                 client: request.client
             });
             user.last_update = String(Date.now());

@@ -36,7 +36,6 @@ class Auth {
             uid: registeredUser.uid,
             email: registeredUser.email,
             username: registeredUser.username,
-            country_code: registeredUser.country_code,
             phone: registeredUser.phone,
             user_type: registeredUser.user_type,
             token: generatedToken.token,

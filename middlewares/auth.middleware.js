@@ -15,7 +15,7 @@ class AuthMiddleware {
                 req.user = user;
             }
 
-            if (req.originalUrl === '/api/v1.0//orders' && !token) {
+            if (req.url === '/orders' && req.method === 'POST' && !token) {
                 user = {}
             }
 

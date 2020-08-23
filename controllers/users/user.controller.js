@@ -29,7 +29,6 @@ class UserController {
                 uid: user.uid,
                 email: user.email,
                 username: user.username,
-                country_code: user.country_code,
                 phone: user.phone,
                 gender: user.gender,
                 is_email_verified: user.is_email_verified,

@@ -7,10 +7,6 @@ const update = {
         in: ['body'],
         isString: true
     },
-    country_code: {
-        in: ['body'],
-        isString: true
-    },
     referral: {
         in: ['body'],
         isString: true

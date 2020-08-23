@@ -61,15 +61,9 @@ router.post(
         check('password')
             .exists()
             .withMessage('`password` is required'),
-        check('user_type')
-            .exists()
-            .withMessage('`user_type` is required'),
         check('username')
             .exists()
-            .withMessage('`username` is required'),
-        check('country_code')
-            .exists()
-            .withMessage('`country_code is required')
+            .withMessage('`username` is required')
     ],
     requestBodyValidator.check,
     authController.signup
