@@ -8,6 +8,9 @@ Documentation concerning the APIs for the project has been hosted on heroku and 
 
 ## Usage
 Kindly authorize via 'Client-key' with the following key :
+1. Click the link provided in the documentation
+2. On the Swagger page, kindly click the 'Authorize' button on the right upper section of the page
+3. Enter the below key into the 'value' input box.
 ```javascript
 4!R_45!4_T37K
 ```
@@ -36,7 +39,15 @@ The token can be applied in the headers as seen below
 "x-auth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZjQyNzdmNTNkZjE0YzM4OTQ0MGRlMWQiLCJfaWQiOiI1ZjQyNzdmNTNkZjE0YzM4OTQ0MGRlMWQiLCJlbWFpbCI6InJvd2FuQGdtYWlsLmNvbSIsInBob25lIjoiODgyNzc3Mzc0NjczOCIsInVzZXJuYW1lIjoiTmV5bWFyIiwiZXhwaXJlZF9hdCI6IjE1OTgyMDc4OTMzOTMyNTkyMDAwMDAwIiwiYWNjZXNzIjoiYXV0aCIsImlhdCI6MTU5ODIwNzg5MywiZXhwIjoxNTk4Mjk0MjkzfQ.kY0CdM9XeQwvnSSuPESpI-zI-Sg6rkqCKHetmapGQTw"
 }
 ```
+## Technology / tools
+- Node.js
+- Swagger
+- Github
+- Heroku
+- VsCode
+
 ## License
-[ISC](https://opensource.org/licenses/ISC)
+This project is licensed under [ISC](https://opensource.org/licenses/ISC) license.
+
 ## Author
 JOOJO DONTOH
