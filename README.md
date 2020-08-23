@@ -35,7 +35,7 @@ The token can be applied in the headers as seen below
 {
 "x-auth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZjQyNzdmNTNkZjE0YzM4OTQ0MGRlMWQiLCJfaWQiOiI1ZjQyNzdmNTNkZjE0YzM4OTQ0MGRlMWQiLCJlbWFpbCI6InJvd2FuQGdtYWlsLmNvbSIsInBob25lIjoiODgyNzc3Mzc0NjczOCIsInVzZXJuYW1lIjoiTmV5bWFyIiwiZXhwaXJlZF9hdCI6IjE1OTgyMDc4OTMzOTMyNTkyMDAwMDAwIiwiYWNjZXNzIjoiYXV0aCIsImlhdCI6MTU5ODIwNzg5MywiZXhwIjoxNTk4Mjk0MjkzfQ.kY0CdM9XeQwvnSSuPESpI-zI-Sg6rkqCKHetmapGQTw"
 }
-
+```
 ## License
 [ISC](https://opensource.org/licenses/ISC)
 ## Author
