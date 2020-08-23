@@ -15,8 +15,8 @@ Documentation concerning the APIs for the project has been hosted on heroku and 
 - Number of guests cannot exceed room capacity
 
 ## Usage
-Kindly authorize via 'Client-key' with the following key :
-1. Click the link provided in the documentation
+Kindly authorize via 'Client-key' through the following steps:
+1. Click <a href="https://back-end-assignment-air-asia.herokuapp.com/api/v1.0/api-docs/#/">here</a>  to access and use the endpoints
 2. On the Swagger page, kindly click the 'Authorize' button on the right upper section of the page
 3. Enter the below key into the 'value' input box.
 ```javascript
