@@ -38,11 +38,13 @@ class order {
 
             await OrderHelper.validateDates(body.check_in_date , body.check_out_date)
 
+            const differenceInDays = await OrderHelper.calculateDays(body.check_in_date , body.check_out_date)
+
             const paymentObj = {
                 status: "pending",
                 method: "CREDIT_CARD",
                 description: `Hotel: ${hotel.hotel_name}, Room: ${room.room_name}, Number of Guests: ${body.number_of_guests}, price: ${room.price}`,
-                total_amount: room.price
+                total_amount: differenceInDays * room.price
             }
 
             if (!isEmpty(currentUser)) {
@@ -66,7 +68,7 @@ class order {
                 hotel_name : hotel.hotel_name,
                 room_name : room.room_name,
                 number_of_guests: body.number_of_guests,
-                total_amount: room.price,
+                total_amount: payment.total_amount,
                 name: order.name,
                 email: order.email,
                 phone: order.phone,

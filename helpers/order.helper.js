@@ -61,6 +61,27 @@ static async validateDates(checkInDate, checkOutDate) {
 }
 
 
+static async calculateDays(checkInDate, checkOutDate) {
+    try {
+
+        if (!checkInDate || !checkOutDate) {
+            throw FILL_ALL_DATES
+        }
+
+        const checkIn = new Date(checkInDate)
+        const checkOut = new Date(checkOutDate)
+
+        const differenceInTime = checkOut.getTime() - checkIn.getTime();
+        const differenceInDays = differenceInTime / (1000 * 3600 * 24); 
+       
+        return differenceInDays
+
+    } catch (error) {
+        throw error;
+    }
+}
+
+
     
     static async getOrders({
         sort,
