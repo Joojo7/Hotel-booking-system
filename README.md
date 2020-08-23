@@ -14,9 +14,15 @@ Kindly authorize via 'Client-key' with the following key :
 ```javascript
 4!R_45!4_T37K
 ```
-## Extra feature
-A user module has been added with relevant endpoints to allow user signup and signin. Details such as name, email and phone will be directly moved from the user's account to the order once the user makes a booking. This is facilitated by token support which later can be used to engage user sessions. 
+LanguageId of '1' should be included in all header requests.   
+
+## Extra features
+### Language Message Constants
+- This feature allows for translation in relation to response message constants. As stated above LanguageId of '1' should be included in all header requests because '1' represents english. With future developments in mind other language message constants can be added  
+### User Module
+- A user module has been added with relevant endpoints to allow user signup and signin. Details such as name, email and phone will be directly moved from the user's account to the order once the user makes a booking. This is facilitated by token support which later can be used to engage user sessions. 
 The token can be found in the payload response for both signup and signin as shown below
+
 ```javascript
 {
     "code": "0000",
@@ -45,6 +51,7 @@ The token can be applied in the headers as seen below
 - Github
 - Heroku
 - VsCode
+- [generatedata]
 
 ## License
 This project is licensed under [ISC](https://opensource.org/licenses/ISC) license.
