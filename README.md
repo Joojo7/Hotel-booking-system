@@ -45,6 +45,7 @@ The token can be applied in the headers as seen below
 - Github
 - Heroku
 - VsCode
+- [generatedata]
 
 ## License
 This project is licensed under [ISC](https://opensource.org/licenses/ISC) license.
