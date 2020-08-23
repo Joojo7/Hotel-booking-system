@@ -153,7 +153,7 @@ class order {
            
             const order = await OrderHelper.getOrders({matchQuery: {order_id: req.query.id}});
 
-            if (!order.orders[0]){
+            if (!order && !order.orders[0]){
                 throw ORDER_NOT_FOUND;
             }
 
@@ -176,7 +176,6 @@ class order {
                 }
 
                 const payment = await PaymentHelper.create(paymentObj);
-                console.log('payment:', payment)
 
                 if (!payment) {
                     throw PAYMENT_ERROR

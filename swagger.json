@@ -1,0 +1,15 @@
+{
+    "swaggerDefinition":{
+        "info": {
+            "title": "Back-end Coding Assignment - B011",
+            "description": "Design & Implement an ordering system by creating a set of Restful APIs and backend Database.\nThese APIs will be used in AirAsia.com to insert and get hotel booking details from the Database (mock data).\nAt the end of the Assignment, push the code to the Public Code Repository (gitlab / github / bitbucket).\nIf you wish, you can deploy the service to Public Cloud and provide us with the list of endpoints for testing.",
+            "version": "v1.0",
+            "contact": {
+                "name": "Jo"
+            },
+            "servers": ["http://localhost:7000/api/v1.0/", "https://back-end-assignment-air-asia.herokuapp.com/api/v1.0"]
+        }
+    },
+    "apis": ["./swagger.yaml"],
+    "basePath": "/api/v1.0/"
+}

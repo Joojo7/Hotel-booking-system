@@ -1,7 +1,10 @@
 // Packages
 const express = require('express');
 const { check, checkSchema } = require('express-validator/check');
-
+const swaggerJsDoc = require('swagger-jsdoc')
+const swaggerUi = require('swagger-ui-express')
+const swaggerOptions = require('../swagger.json');
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
 // Internal files
 const requestBodyValidator = require('../middlewares/requestBodyValidator.middleware');
 
@@ -15,6 +18,12 @@ const authMiddleware = require('../middlewares/auth.middleware');
 // Authintication
 // #region
 const authController = require('../controllers/auth/auth.controller');
+
+//setup swagger documentation
+router.use('/api-docs', swaggerUi.serve);
+router.get('/api-docs', swaggerUi.setup(swaggerDocs));
+const apiVersion = process.env.API_VERSION;
+const routingPoint = '/api/' + apiVersion;
 
 router.post(
     '/user/signin',

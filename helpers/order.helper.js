@@ -156,7 +156,7 @@ static async validateDates(checkInDate, checkOutDate) {
                 query.match({
                     "hotel.hotel_name": {
                         $regex: `${filterHotel}`,
-                        $options: 'xi'
+                        $options: 'i'
                     }
                 });
             }
@@ -167,19 +167,19 @@ static async validateDates(checkInDate, checkOutDate) {
                         {
                             name: {
                                 $regex: `${filterUser}`,
-                                $options: 'xi'
+                                $options: 'i'
                             }
                         },
                         {
                             email: {
                                 $regex: `${filterUser}`,
-                                $options: 'xi'
+                                $options: 'i'
                             }
                         },
                         {
                             phone: {
                                 $regex: `${filterUser}`,
-                                $options: 'xi'
+                                $options: 'i'
                             }
                         }
                     ]
