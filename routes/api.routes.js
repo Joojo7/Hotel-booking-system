@@ -179,6 +179,7 @@ const ordersController = require('../controllers/order/order.controller');
 router.post(
     '/orders',
     clientKey.clientKey,
+    authMiddleware.authorize,
     requestBodyValidator.check,
     ordersController.createOrder
 );

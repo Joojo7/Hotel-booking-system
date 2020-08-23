@@ -11,5 +11,8 @@ module.exports = {
     '5007': "Check in date must be before the check out date",
     '5005': "An error occured with payment details",
     '5008': "This order cannot be found",
-    '5002': "This credit card is invalid"
+    '5002': "This credit card is invalid",
+    '0015': "Email/Phone is not valid",
+    "0013": "Email/Phone is already registered",
+    "0017": "wrong email/phone or password"
 };

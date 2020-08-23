@@ -21,6 +21,10 @@ const Schema = new mongoose.Schema(
             type: String,
             required: true
         },
+        uid: {
+            type: String,
+            default: ""
+        },
         email: {
             type: String,
             required: true

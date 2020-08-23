@@ -5,31 +5,19 @@ const crypto = require('crypto');
 const { validationResult } = require('express-validator/check');
 const validator = require('validator');
 const {
-    BARCODE_EXSIST,
-    EMAIL_PHONE_EXSIST,
     USER_NOT_FOUND,
-    USERNAME_LENGTH_SMALL
 } = require('../../errorDefinition/errors.map');
 
 // Helpers
 const userHelper = require('../../helpers/user.helper');
 
 const response = require('../../helpers/response.helper');
-const isEmpty = require('lodash/isEmpty');
 const TokenHelper = require('../../helpers/token.helper');
 const AuthHelper = require('../../helpers/auth.helper');
 
 class Auth {
-    /**
-     * @api {post} /user/signin Create a new user
-     * @apiName signin
-     * @apiGroup user
-     *
-     * @apiParam {String} email_phone  user email or user phone number.
-     * @apiParam {String} user password.
-     */
+
     static async signin(req, res) {
-        console.log('req:', req.body)
         
         let result = null;
         try {
@@ -46,25 +34,15 @@ class Auth {
                     req.body.password.trim()
                 );
             } else {
-                return res
-                    .status(401)
-                    .json(
-                        new response('0015', 'Email/Phone is not valid', null)
-                    );
+                return res.sendError('0015', req.header('languageId'));
             }
         } catch (e) {
             console.log(e);
-            return res
-                .status(500)
-                .json(new response('-1', 'UNEXPECTED_ERROR', null));
+            return res.sendError('-1', req.header('languageId'));
         }
 
         if (!result) {
-            return res
-                .status(203)
-                .json(
-                    new response('0017', 'wrong email/phone or password', null)
-                );
+            return res.sendError('0017', req.header('languageId'));
         }
 
         try {
@@ -87,13 +65,9 @@ class Auth {
                 access_codes: result.access_codes
             };
 
-            return res
-                .status(200)
-                .json(new response('0000', 'SUCCESSFUL', data));
+            return res.sendSuccess(data);
         } catch (e) {
-            return res
-                .status(500)
-                .json(new response('-1', 'UNEXPECTED_ERROR', null));
+            return res.sendError('-1', req.header('languageId'));
         }
     }
 
@@ -120,17 +94,7 @@ class Auth {
         }
     }
 
-    /**
-     * @api {post} /user/signup Create a new user
-     * @apiName signup
-     * @apiGroup user
-     *
-     * @apiParam {String} username  full name of user
-     * @apiParam {String} email  email address
-     * @apiParam {String} country_code  country code, example "MY".
-     * @apiParam {String} password  user chosen password more than 6 charecters "MY".
-     * @apiParam {Number} account_type  0 if individual or 1 if expert.
-     */
+ 
     static async signup(req, res) {
         try {
             const options = {

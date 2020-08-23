@@ -47,43 +47,6 @@ class Auth {
         return data;
     }
 
-    static async signuptasker({ tasker, clientKey, platform, app_version }) {
-        // check if tasker already exists
-        let taskerExixst = await taskerHelper.taskerExists(
-            tasker.email.trim().toLowerCase(),
-            tasker.phone.trim()
-        );
-
-        if (taskerExixst) {
-            throw EMAIL_PHONE_EXSIST
-        }
-
-
-        let password = await taskerHelper.hashPassword(tasker.password.trim());
-
-        tasker.client = clientKey;
-        let registeredTasker = await taskerHelper.create(tasker, password);
-
-        // append platform and version to tasker obj
-        registeredTasker.platform = platform;
-        registeredTasker.app_version = app_version;
-        let { generatedToken, refreshToken } = await token.generate(
-            registeredTasker
-        );
-        let data = {
-            uid: registeredTasker.uid,
-            email: registeredTasker.email,
-            username: registeredTasker.username,
-            country_code: registeredTasker.country_code,
-            phone: registeredTasker.phone,
-            tasker_type: registeredTasker.tasker_type,
-            token: generatedToken.token,
-            refresh_token: refreshToken
-        };
-
-
-        return data;
-    }
 
 
 }

@@ -3,6 +3,8 @@ const HotelHelper = require('../../helpers/hotel.helper');
 const RoomHelper = require('../../helpers/room.helper');
 const PaymentHelper = require('../../helpers/payment.helper');
 const CardValidator = require("card-validator");
+const isEmpty = require('lodash/isEmpty');
+
 const omit = require('lodash/omit');
 const {
   HOTEL_NOT_FOUND,
@@ -41,6 +43,12 @@ class order {
                 total_amount: room.price
             }
 
+            if (!isEmpty(currentUser)) {
+                body.uid = currentUser.uid
+                body.email = currentUser.email
+                body.phone = currentUser.phone
+            }
+
 
             const payment = await PaymentHelper.create(paymentObj);
 
@@ -52,6 +60,7 @@ class order {
             const order = await OrderHelper.create(body);
 
             const bookingObject = {
+                uid: body.uid ? body.uid : null,
                 hotel_name : hotel.hotel_name,
                 room_name : room.room_name,
                 number_of_guests: body.number_of_guests,

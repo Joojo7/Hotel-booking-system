@@ -29,8 +29,9 @@ class Token {
                 {
                     uid: user.uid,
                     _id: user._id,
-                    user_type: user.user_type,
-                    access_codes: user.access_codes,
+                    email: user.email,
+                    phone: user.phone,
+                    username: user.username,
                     expired_at: expireAt,
                     access: 'auth'
                 },
