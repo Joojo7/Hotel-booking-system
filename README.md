@@ -23,7 +23,7 @@ Kindly authorize via 'Client-key' through the following steps:
 ```javascript
 4!R_45!4_T37K
 ```
-LanguageId of '1' should be included in all header requests.   
+4. LanguageId of '1' should be included in all header requests.   
 
 ## Extra features
 ### Language Message Constants
