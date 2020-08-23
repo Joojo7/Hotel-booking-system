@@ -211,10 +211,18 @@ router.patch(
 );
 
 router.get(
-    '/payment-status/:id',
+    '/orders/:id',
     clientKey.clientKey,
     ordersController.getOrder
 );
+
+router.get(
+    '/payment-status/:id',
+    clientKey.clientKey,
+    ordersController.paymentStatus
+);
+
+
 
 // #endregion
 

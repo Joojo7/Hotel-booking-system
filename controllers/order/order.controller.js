@@ -12,7 +12,8 @@ const {
   ROOM_CAPACITY_EXCEEDED,
   PAYMENT_ERROR,
   ORDER_NOT_FOUND,
-  INVALID_CREDIT_CARD
+  INVALID_CREDIT_CARD,
+  PAYMENT_RECORD_NOT_FOUND
 } = require("../../errorDefinition/errors.map");
 class order {
     static async createOrder(req, res) {
@@ -184,14 +185,14 @@ class order {
                     credit_card: req.params.credit_card
                 }
 
-                const payment = await PaymentHelper.create(paymentObj);
+                const newPayment = await PaymentHelper.create(paymentObj);
 
-                if (!payment) {
+                if (!newPayment) {
                     throw PAYMENT_ERROR
                 }
 
                 const orderUpdate = await OrderHelper.update({ order_id: order.orders[0].order_id, order: {payment_id: payment.payment_id} });
-                console.log('orderUpdate:', orderUpdate)
+
                 return res.sendSuccess(orderUpdate);
 
             }
@@ -212,6 +213,22 @@ class order {
             const paymentupdate = await PaymentHelper.update(parameters);
 
             res.sendSuccess(paymentupdate);
+        } catch (error) {
+            console.log(error);
+            res.sendError(error, req.header('languageId'),null,error); 
+        }
+    }
+
+    static async paymentStatus(req, res) {
+        try {
+
+            const payment = await PaymentHelper.getPayment(req.params.id);
+            
+            if (!payment) {
+                throw PAYMENT_RECORD_NOT_FOUND
+            }
+
+            res.sendSuccess({status: payment.status});
         } catch (error) {
             console.log(error);
             res.sendError(error, req.header('languageId'),null,error); 

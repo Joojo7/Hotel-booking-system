@@ -14,5 +14,6 @@ module.exports = {
     '5002': "This credit card is invalid",
     '0015': "Email/Phone is not valid",
     "0013": "Email/Phone is already registered",
-    "0017": "wrong email/phone or password"
+    "0017": "wrong email/phone or password",
+    "6000": "This payment record cannot be found"
 };
