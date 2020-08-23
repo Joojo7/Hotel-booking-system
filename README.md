@@ -7,6 +7,13 @@ Design &amp; Implement an ordering system by creating a set of Restful APIs and 
 ## Documentation
 Documentation concerning the APIs for the project has been hosted on heroku and can be found <a href="https://back-end-assignment-air-asia.herokuapp.com/api/v1.0/api-docs/#/">here</a> 
 
+## Assumptions
+- Hotels are connected to rooms
+- Rooms have a maximum capacity
+- same day checkin and checkout not allowed
+- Each room has a charge per night 
+- number of guests cannot exceed room capacity
+
 ## Usage
 Kindly authorize via 'Client-key' with the following key :
 1. Click the link provided in the documentation
@@ -55,6 +62,10 @@ The token can be applied in the headers as seen below
 - generatedata
 - MongoDB (Mongoose framework)
 - Mlab
+
+## Perks and goodies
+- Easy deployment
+- Awesome Documentation
 
 ## License
 This project is licensed under [ISC](https://opensource.org/licenses/ISC) license.
