@@ -10,9 +10,9 @@ Documentation concerning the APIs for the project has been hosted on heroku and 
 ## Assumptions
 - Hotels are connected to rooms
 - Rooms have a maximum capacity
-- same day checkin and checkout not allowed
+- Same day checkin and checkout not allowed
 - Each room has a charge per night 
-- number of guests cannot exceed room capacity
+- Number of guests cannot exceed room capacity
 
 ## Usage
 Kindly authorize via 'Client-key' with the following key :
