@@ -170,7 +170,7 @@ class order {
                 throw ORDER_NOT_FOUND;
             }
 
-            if (order.orders[0].status === completed){
+            if (order.orders[0].status === "completed"){
                 throw PAYMENT_COMPLETE;
             }
 
