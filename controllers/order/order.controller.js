@@ -13,7 +13,8 @@ const {
   PAYMENT_ERROR,
   ORDER_NOT_FOUND,
   INVALID_CREDIT_CARD,
-  PAYMENT_RECORD_NOT_FOUND
+  PAYMENT_RECORD_NOT_FOUND,
+  PAYMENT_COMPLETE
 } = require("../../errorDefinition/errors.map");
 class order {
     static async createOrder(req, res) {
@@ -25,7 +26,7 @@ class order {
                 throw HOTEL_NOT_FOUND
             }
 
-            const room = await RoomHelper.getRoom(body.room_id ? body.room_id  : "")
+            const room = await RoomHelper.getRoom(body.room_id ? body.room_id  : "", body.hotel_id )
             if (!room) {
                 throw ROOM_NOT_FOUND
             }
@@ -167,6 +168,10 @@ class order {
 
             if (!order && !order.orders[0]){
                 throw ORDER_NOT_FOUND;
+            }
+
+            if (order.orders[0].status === completed){
+                throw PAYMENT_COMPLETE;
             }
 
             const checkCard = await CardValidator.number(req.params.credit_card)

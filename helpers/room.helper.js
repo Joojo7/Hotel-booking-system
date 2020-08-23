@@ -118,10 +118,10 @@ class Room {
         }
     }
 
-    static async getRoom(id) {
+    static async getRoom(room_id,hotel_id) {
 
         let result = await roomsModel.findOne({
-            room_id: id
+            room_id, hotel_id
         })
         if (!result) {
             return null;
