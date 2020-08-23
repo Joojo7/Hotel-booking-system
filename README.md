@@ -52,7 +52,9 @@ The token can be applied in the headers as seen below
 - Github
 - Heroku
 - VsCode
-- [generatedata]
+- generatedata
+- MongoDB (Mongoose framework)
+- Mlab
 
 ## License
 This project is licensed under [ISC](https://opensource.org/licenses/ISC) license.
