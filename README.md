@@ -13,6 +13,7 @@ Documentation concerning the APIs for the project has been hosted on heroku and 
 - Same day checkin and checkout not allowed
 - Each room has a charge per night 
 - Number of guests cannot exceed room capacity
+- Hotel and room data have been provided for use
 
 ## Usage
 Kindly authorize via 'Client-key' through the following steps:
