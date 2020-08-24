@@ -27,10 +27,10 @@ Kindly authorize via 'Client-key' through the following steps:
 
 ## Extra features
 ### Language Message Constants
-- This feature allows for translation in relation to response message constants. As stated above LanguageId of '1' should be included in all header requests because '1' represents english. With future developments in mind other language message constants can be added  
+- This feature allows for translation in relation to response message constants. As stated above, LanguageId of '1' should be included in all header requests to represent english. With future developments in mind other language message constants can be added  
 ### User Module
-- A user module has been added with relevant endpoints to allow user signup and signin. Details such as name, email and phone will be directly moved from the user's account to the order once the user makes a booking. This is facilitated by token support which later can be used to engage user sessions. 
-The token can be found in the payload response for both signup and signin as shown below
+- Though this application was developed with guest booking in mind, a user module has been added with relevant endpoints to allow user signup and signin. Details such as name, email and phone will be directly moved from the user's account to the order once the user makes a booking. This is facilitated by token support which  can be later used to engage user sessions. 
+The token can be found in the payload response for both signup and signin as shown in the example below
 
 ```javascript
 {
@@ -48,7 +48,7 @@ The token can be found in the payload response for both signup and signin as sho
     }
 }
 ```
-The token can be applied in the headers as seen below
+The token can be applied in the headers of the create order API as seen below
 ```javascript
 {
 "x-auth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZjQyNzdmNTNkZjE0YzM4OTQ0MGRlMWQiLCJfaWQiOiI1ZjQyNzdmNTNkZjE0YzM4OTQ0MGRlMWQiLCJlbWFpbCI6InJvd2FuQGdtYWlsLmNvbSIsInBob25lIjoiODgyNzc3Mzc0NjczOCIsInVzZXJuYW1lIjoiTmV5bWFyIiwiZXhwaXJlZF9hdCI6IjE1OTgyMDc4OTMzOTMyNTkyMDAwMDAwIiwiYWNjZXNzIjoiYXV0aCIsImlhdCI6MTU5ODIwNzg5MywiZXhwIjoxNTk4Mjk0MjkzfQ.kY0CdM9XeQwvnSSuPESpI-zI-Sg6rkqCKHetmapGQTw"
