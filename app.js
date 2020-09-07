@@ -9,7 +9,7 @@ const logRequestBody = require('./middlewares/logRequestBody.middleware');
 if (process.env.ENV != 'production' && process.env.ENV != 'dev_online') {
     require('dotenv').config();
 }
-console.log(`Initialised env on ${process.env.ENV} 🛰`)  
+console.log(`Initialised env on ${process.env.ENV} 🛰`)   
 
 
 
