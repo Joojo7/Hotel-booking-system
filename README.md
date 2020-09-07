@@ -1,4 +1,4 @@
-# Interview Question for Air Asia Back-end-Coding-Assignment---B011 
+# Interview assignment for air asia
 
 ### Task:
 Design &amp; Implement an ordering system by creating a set of Restful APIs and backend Database. These APIs will be used in AirAsia.com to insert and get hotel booking details from the Database (mock data). At the end of the Assignment, push the code to the Public Code Repository (gitlab / github / bitbucket). If you wish, you can deploy the service to Public Cloud and provide us with the list of endpoints for testing.
