@@ -1,4 +1,4 @@
-# Back-end-Coding-Assignment---B011 
+# Interview Question for Air Asia Back-end-Coding-Assignment---B011 
 ![Air Asia](https://res.cloudinary.com/icycle-avatar/image/upload/v1598224307/htwqrx0ndvtonxe3e40x.jpg)
 
 ### Task:
@@ -6,14 +6,6 @@ Design &amp; Implement an ordering system by creating a set of Restful APIs and 
 
 ## Documentation
 Documentation concerning the APIs for the project has been hosted on heroku and can be found <a href="https://back-end-assignment-air-asia.herokuapp.com/api/v1.0/api-docs/#/">here</a> 
-
-## Assumptions
-- Hotels are connected to rooms
-- Rooms have a maximum capacity
-- Same day checkin and checkout not allowed
-- Each room has a charge per night 
-- Number of guests cannot exceed room capacity
-- Hotel and room data have been provided for use
 
 ## Usage
 Kindly authorize via 'Client-key' through the following steps:
