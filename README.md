@@ -4,7 +4,7 @@
 Design &amp; Implement an ordering system by creating a set of Restful APIs and backend Database. These APIs will be used in AirAsia.com to insert and get hotel booking details from the Database (mock data). At the end of the Assignment, push the code to the Public Code Repository (gitlab / github / bitbucket). If you wish, you can deploy the service to Public Cloud and provide us with the list of endpoints for testing.
 
 ## Documentation
-Documentation concerning the APIs for the project has been hosted on heroku and can be found <a href="https://back-end-assignment-air-asia.herokuapp.com/api/v1.0/api-docs/#/">here</a> 
+Documentation concerning the APIs for the project has been hosted on heroku and can be found <a href="https://hotel-room-booking-system.herokuapp.com/api/v1.0/api-docs/#/">here</a> 
 
 ## Usage
 Kindly authorize via 'Client-key' through the following steps:
