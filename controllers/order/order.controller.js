@@ -128,9 +128,30 @@ class order {
         toDate: req.query.toDate,
       };
 
-      const Orders = await HotelHelper.getHotel(req.params.id);
+      const hotels = await HotelHelper.getHotel(req.params.id);
 
-      res.sendSuccess(Orders);
+      res.sendSuccess(hotels);
+    } catch (error) {
+      console.log(error);
+      res.sendError(error, req.header("languageId"), null, error);
+    }
+  }
+
+  static async getRoom(req, res) {
+    try {
+      const options = {
+        sort: req.query.sort,
+        order: req.query.order,
+        page: req.query.page,
+        recordPerPage: req.query.pageSize,
+        filter: req.query.filter,
+        fromDate: req.query.fromDate,
+        toDate: req.query.toDate,
+      };
+
+      const hotels = await HotelHelper.getRoom(req.params.id);
+
+      res.sendSuccess(hotels);
     } catch (error) {
       console.log(error);
       res.sendError(error, req.header("languageId"), null, error);

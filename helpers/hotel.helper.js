@@ -1,4 +1,5 @@
 const hotelsModel = require("../models/hotel/hotel.model");
+const roomsModel = require("../models/room/room.model");
 const fetch = require("node-fetch");
 
 class Hotel {
@@ -13,45 +14,50 @@ class Hotel {
     }
   }
 
-  static async updatePictures(hotel) {
-    try {
-      let pics = [];
-      let hotels = (
-        await Hotel.getHotels({
-          recordPerPage: 100,
-          sort: "updated_at",
-          order: 1,
-        })
-      ).hotels;
+  //   static async updatePictures(hotel) {
+  //     try {
+  //       let pics = [];
+  //       //   let hotels = (
+  //       //     await Hotel.getHotels({
+  //       //       recordPerPage: 100,
+  //       //       sort: "updated_at",
+  //       //       order: 1,
+  //       //     })
+  //       //   ).hotels;
+  //       let rooms = await roomsModel.aggregate().match({});
 
-      await fetch(
-        `https://api.unsplash.com/search/photos/?client_id=ActDAe-BqrYcZiLu8O-tAbM4cH0n51DaptUu3x2wZ4Y&page=1&query=hotel&per_page=40`
-      )
-        .then((res) => res.json())
-        .then((json) => {
-          json.results.map((pic) => {
-            pics.push(pic.urls.regular);
-          });
-        })
-        .catch((error) => {
-          console.log("error:", error);
-        });
+  //       for (let i = 0; i < 6; i++) {
+  //         await fetch(
+  //           `https://api.unsplash.com/search/photos/?client_id=ActDAe-BqrYcZiLu8O-tAbM4cH0n51DaptUu3x2wZ4Y&page=${i}&query=room&per_page=100`
+  //         )
+  //           .then((res) => res.json())
+  //           .then((json) => {
+  //             json.results.map((pic) => {
+  //               pics.push(pic.urls.regular);
+  //             });
+  //           })
+  //           .catch((error) => {
+  //             console.log("error:", error);
+  //           });
+  //       }
 
-      for (let i = 0; i < hotels.length; i++) {
-        // hotels[i].hotel_image = pics[i];
-        let update = await hotelsModel.updateOne(
-          { hotel_id: hotels[i].hotel_id },
-          { hotel_image: pics[i] }
-        );
-        console.log("update:", update);
-      }
+  //       for (let i = 0; i < rooms.length; i++) {
+  //         // hotels[i].hotel_image = pics[i];
+  //         let update = await roomsModel.updateOne(
+  //           { room_id: rooms[i].room_id },
+  //           { room_image: pics[i] }
+  //         );
+  //         console.log("update:", update);
+  //       }
 
-      console.log("hotels:", hotels);
-      return hotels;
-    } catch (error) {
-      throw error;
-    }
-  }
+  //       console.log("pics:", pics.length);
+
+  //       //   console.log("rooms:", rooms);
+  //       return pics;
+  //     } catch (error) {
+  //       throw error;
+  //     }
+  //   }
 
   //   TODO: UPDATE HOTEL HELPER
 
@@ -165,6 +171,18 @@ class Hotel {
       foreignField: "hotel_id",
       as: "rooms",
     });
+    if (!result) {
+      return null;
+    }
+    if (!result[0]) {
+      return null;
+    }
+
+    return result[0];
+  }
+
+  static async getRoom(id) {
+    let result = await roomsModel.aggregate().match({ room_id: id });
     if (!result) {
       return null;
     }

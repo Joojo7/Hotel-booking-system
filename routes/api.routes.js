@@ -151,6 +151,7 @@ router.get("/orders", clientKey.clientKey, ordersController.getOrders);
 router.get("/hotels", clientKey.clientKey, ordersController.getHotels);
 
 router.get("/hotels/:id", clientKey.clientKey, ordersController.getHotel);
+router.get("/rooms/:id", clientKey.clientKey, ordersController.getRoom);
 
 router.patch(
   "/orders/:id",

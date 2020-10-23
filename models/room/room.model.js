@@ -18,8 +18,11 @@ const Schema = new mongoose.Schema(
       required: true,
     },
     price: {
-        type: Number,
+      type: Number,
       required: true,
+    },
+    room_image: {
+      type: String,
     },
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
