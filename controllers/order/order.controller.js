@@ -116,6 +116,27 @@ class order {
     }
   }
 
+  static async getHotel(req, res) {
+    try {
+      const options = {
+        sort: req.query.sort,
+        order: req.query.order,
+        page: req.query.page,
+        recordPerPage: req.query.pageSize,
+        filter: req.query.filter,
+        fromDate: req.query.fromDate,
+        toDate: req.query.toDate,
+      };
+
+      const Orders = await HotelHelper.getHotel(req.params.id);
+
+      res.sendSuccess(Orders);
+    } catch (error) {
+      console.log(error);
+      res.sendError(error, req.header("languageId"), null, error);
+    }
+  }
+
   static async getHotels(req, res) {
     try {
       const options = {
@@ -129,7 +150,6 @@ class order {
       };
 
       const Orders = await HotelHelper.getHotels(options);
-      //   const Orders1 = await HotelHelper.updatePictures();
 
       res.sendSuccess(Orders);
     } catch (error) {

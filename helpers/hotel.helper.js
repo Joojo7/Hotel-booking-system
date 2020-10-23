@@ -159,14 +159,20 @@ class Hotel {
   }
 
   static async getHotel(id) {
-    let result = await hotelsModel.findOne({
-      hotel_id: id,
+    let result = await hotelsModel.aggregate().match({ hotel_id: id }).lookup({
+      from: "rooms",
+      localField: "hotel_id",
+      foreignField: "hotel_id",
+      as: "rooms",
     });
     if (!result) {
       return null;
     }
+    if (!result[0]) {
+      return null;
+    }
 
-    return result;
+    return result[0];
   }
 
   static async delete(_id) {
