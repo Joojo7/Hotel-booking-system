@@ -20,7 +20,7 @@ class User {
     try {
       result = await userProfileModule.UserProfile.aggregate()
         .match({
-          email: "iiwiirnj3@gmail.com",
+          email: email,
         })
         .lookup({
           from: "user_types",
